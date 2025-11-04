@@ -6,7 +6,7 @@ REST API for task management
 
 * Docker
 * Docker Compose
-  
+
 OR
 
 * Redis
@@ -48,6 +48,6 @@ OR
 
 4. Apply migrations:
 
-  ``` bash
-  bun run migrate
-  ```
+    ``` bash
+    bun run migrate
+    ```
