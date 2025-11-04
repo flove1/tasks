@@ -2,20 +2,47 @@ name: tasks-app
 
 services:
   postgres:
-    image: postgres:13
+    image: postgres:15
     environment:
-      POSTGRES_DB: tasks_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DB_NAME:-tasks_db}
+      POSTGRES_USER: ${DB_USER:-user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
     ports:
-      - "5432:5432"
+      - ${DB_PORT}:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-user} -d ${DB_NAME:-tasks_db}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
 
   redis:
     image: redis:6.2
     ports:
-      - "6379:6379"
+      - ${DB_REDIS:-6379}:6379
+
+  app:
+    build: .
+    container_name: api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+
+      DB_HOST: postgres
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER:-user}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      DB_NAME: ${DB_NAME:-tasks_db}
+
+      REDIS_HOST: redis
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-""}
+    ports:
+      - ${API_PORT:-3000}:3000
 
 volumes:
   postgres_data:
