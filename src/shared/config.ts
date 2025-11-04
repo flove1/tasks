@@ -22,6 +22,7 @@ const redisConfigSchema = z.object({
 
 const configSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  VERSION: z.string().default("0.0.1"),
 
   API: apiConfigSchema,
   DB: dbConfigSchema,
@@ -29,7 +30,7 @@ const configSchema = z.object({
 });
 
 const prefixes = Object.entries(configSchema.shape)
-  .filter(([k, value]) => typeof value === "object" && k !== "NODE_ENV")
+  .filter(([k, value]) => typeof value === "object" && !["NODE_ENV", "VERSION"].includes(k))
   .map(([k]) => k);
 
 function buildNestedEnv(env: NodeJS.ProcessEnv) {

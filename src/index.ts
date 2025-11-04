@@ -2,7 +2,7 @@ import server from "@infrastructure/http/server";
 import { logger } from "@shared/logger";
 
 try {
-  const serverInstance = server.start();
+  const instance = server.start();
 
   const shutdown = async () => {
     logger.info(`signal received. shutting down...`);
@@ -12,7 +12,7 @@ try {
       process.exit(1);
     }, 10000).unref();
 
-    await serverInstance?.stop();
+    await instance?.stop();
     process.exit(0);
   };
 
