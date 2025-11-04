@@ -77,29 +77,5 @@ export const taskController = (taskService: TaskService) => {
     },
   );
 
-  app.post(
-    "/:id/complete",
-    async (context) => {
-      const task = await taskService.completeTask(context.params.id);
-      return task.toPrimitive();
-    },
-    {
-      params: z.object({ id: z.uuid() }),
-      response: TaskResponseSchema,
-    },
-  );
-
-  app.post(
-    "/:id/uncomplete",
-    async (context) => {
-      const task = await taskService.uncompleteTask(context.params.id);
-      return task.toPrimitive();
-    },
-    {
-      params: z.object({ id: z.uuid() }),
-      response: TaskResponseSchema,
-    },
-  );
-
   return app;
 };
