@@ -6,7 +6,9 @@ REST API for task management
 
 * Docker
 * Docker Compose
+  
 OR
+
 * Redis
 * Postgres
 
