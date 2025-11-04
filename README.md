@@ -1,11 +1,14 @@
 # Tasks API
 
-Run the API and database, then open the documentation.
+REST API for task management
 
 ## Requirements
 
 * Docker
 * Docker Compose
+OR
+* Redis
+* Postgres
 
 ## Start with Docker
 
