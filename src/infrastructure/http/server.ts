@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia";
 import { TaskService } from "@application/services/task.service";
 import { DrizzleTaskRepository } from "@infrastructure/database/repositories/drizzle-task.repository";
 import { taskController } from "./controllers/task.controller";
-import { config } from "../../config";
+import { config } from "../../shared/config";
 import { AppError } from "@shared/errors/app-error";
 import { startExpireTaskNotifier } from "@infrastructure/schedulling/expire-task-notifier.cron";
 import { logger } from "@shared/logger";

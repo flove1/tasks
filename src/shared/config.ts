@@ -56,7 +56,6 @@ function buildNestedEnv(env: NodeJS.ProcessEnv) {
 
   return nested;
 }
-// ...existing code...
 
 const parsed = configSchema.safeParse(buildNestedEnv(Bun.env));
 
@@ -75,4 +74,4 @@ if (!parsed.success) {
 
 export const config = Object.freeze(parsed.data);
 
-export type AppConfig = typeof config;
+export type TAppConfig = typeof config;
