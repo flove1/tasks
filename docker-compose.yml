@@ -23,12 +23,29 @@ services:
     ports:
       - ${DB_REDIS:-6379}:6379
 
+  migrate:
+    build: .
+    container_name: migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER:-user}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      DB_NAME: ${DB_NAME:-tasks_db}
+    entrypoint: ["bun", "run", "migrate"]
+
   app:
     build: .
     container_name: api
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
     environment:
       NODE_ENV: ${NODE_ENV:-production}
 
@@ -43,6 +60,8 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD:-""}
     ports:
       - ${API_PORT:-3000}:3000
+    working_dir: /app
+    command: ["bun", "run", "migrate"]
 
 volumes:
   postgres_data:

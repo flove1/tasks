@@ -1,3 +1,4 @@
+import { config } from "./src/shared/config";
 import type { Config } from 'drizzle-kit';
 
 export default {
@@ -5,11 +6,11 @@ export default {
   out: './drizzle',
   dialect: 'postgresql',
   dbCredentials: {
-    host: 'localhost',
-    port: 5432,
-    user: 'user',
-    password: 'password',
-    database: 'tasks_db',
+    host: config.DB.HOST,
+    port: config.DB.PORT,
+    user: config.DB.USER,
+    password: config.DB.PASSWORD,
+    database: config.DB.NAME,
     ssl: false,
   },
 } satisfies Config;

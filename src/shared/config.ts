@@ -1,4 +1,4 @@
-import { logger } from "@shared/logger";
+import { logger } from "./logger";
 import { z } from "zod";
 
 const dbConfigSchema = z.object({

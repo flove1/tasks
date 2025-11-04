@@ -4,7 +4,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build src/index.ts --target bun --outfile ./dist/index.js"
+    "build": "bun build src/index.ts --target bun --outfile ./.dist/index.js",
+    "build:migrations": "bun build drizzle.config.ts --target bun --outfile ./drizzle.config.js",
+    "migrate": "bun drizzle-kit migrate"
   },
   "dependencies": {
     "@types/pg": "^8.15.6",
