@@ -1,7 +1,24 @@
-import { Elysia } from "elysia";
+import server from "@infrastructure/http/server";
+import { logger } from "@shared/logger";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+try {
+  const serverInstance = server.start();
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+  const shutdown = async () => {
+    logger.info(`signal received. shutting down...`);
+
+    setTimeout(() => {
+      logger.error("timeout, forcing shutdown...");
+      process.exit(1);
+    }, 10000).unref();
+
+    await serverInstance?.stop();
+    process.exit(0);
+  };
+
+  process.on("SIGTERM", shutdown);
+  process.on("SIGINT", shutdown);
+} catch (error) {
+  logger.error(`failed to start server: ${JSON.stringify(error)}`);
+  process.exit(1);
+}
